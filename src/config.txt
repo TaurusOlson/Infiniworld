@@ -1,0 +1,44 @@
+# Available characters:
+#
+#  Character         Common name
+# -----------------------------
+#  return              return
+#  tab                 tab
+#  backspace           backspace
+#  escape              escape
+#  esc                 escape
+#  semicolon           semicolon
+#  ;                   semicolon
+#  colon               colon
+#  :                   colon
+#  hash                hash
+#  #                   hash
+#  caret               caret
+#  ^                   caret
+#  period              period
+#  .                   period
+
+
+
+# Motions of the entities
+K_GO_NORTH = k
+K_GO_SOUTH = j
+K_GO_WEST = h
+K_GO_EAST = l
+K_GO_NEXT_AREA = /
+K_GO_PREV_AREA = ;
+
+#
+K_CREATE_ENTITY = return
+K_CREATE_AREA = \
+
+#
+K_CONTROL_PREV_ENTITY = :
+K_CONTROL_NEXT_ENTITY = '
+
+# 
+K_VIEW_NEXT_AREA = #
+K_VIEW_PREV_AREA = (
+
+#
+K_QUIT = escape
