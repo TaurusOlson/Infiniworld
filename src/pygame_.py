@@ -9,8 +9,10 @@ import events
 import evtman
 import geometry
 import world # For its events ONLY.
+import config
 
 LOGGER = logging.getLogger('pygame')
+user_keys = config.KeysConfig('config.txt').run()
 
 # pylint: disable-msg=R0903
 # Too few public methods.  I know, it's just a Context Manager, they don't
@@ -138,13 +140,16 @@ class PygameController(evtman.SingleListener):
 
         x = y = 0
         key = pygame.key.get_pressed()
+
+        # Use the keys defined by the user in the configuration file
+
         # Move your character with WASD.
         # pylint: disable-msg=C0321
         # More than one statement on a single line.  Yeah but it's prettier.
-        if key[pygame.K_w]: y += 1
-        if key[pygame.K_a]: x -= 1
-        if key[pygame.K_s]: y -= 1
-        if key[pygame.K_d]: x += 1
+        if key[user_keys.K_MOVE_NORTH]: y += 1
+        if key[user_keys.K_MOVE_WEST]: x -= 1
+        if key[user_keys.K_MOVE_SOUTH]: y -= 1
+        if key[user_keys.K_MOVE_EAST]: x += 1
         # pylint: enable-msg=C0321
         vector = geometry.Vector((x, y))
         if x or y:
@@ -155,26 +160,27 @@ class PygameController(evtman.SingleListener):
 
     def keyDown(self, key):
         """Process pygame KEYDOWN events."""
-        if key == pygame.K_ESCAPE:
+
+        if key == user_keys.K_QUIT:
             self.post(events.QuitEvent())
 
-        elif key == pygame.K_RETURN:
+        elif key == user_keys.K_CREATE_ENTITY:
             self.post(events.CreateEntityCommand())
-        elif key == pygame.K_SEMICOLON:
+        elif key == user_keys.K_CONTROL_PREV_ENTITY:
             self.post(events.ControlNextEntityCommand(-1))
-        elif key == pygame.K_QUOTE:
+        elif key == user_keys.K_CONTROL_NEXT_ENTITY:
             self.post(events.ControlNextEntityCommand(1))
 
-        elif key == pygame.K_BACKSLASH:
+        elif key == user_keys.K_CREATE_AREA:
             self.post(events.CreateAreaCommand())
-        elif key == pygame.K_LEFTBRACKET:
+        elif key == user_keys.K_VIEW_PREV_AREA:
             self.post(events.ViewNextAreaCommand(-1))
-        elif key == pygame.K_RIGHTBRACKET:
+        elif key == user_keys.K_VIEW_NEXT_AREA:
             self.post(events.ViewNextAreaCommand(1))
 
-        elif key == pygame.K_PERIOD:
+        elif key == user_keys.K_MOVE_PREV_AREA:
             self.post(events.MoveEntityToNextAreaCommand(-1))
-        elif key == pygame.K_SLASH:
+        elif key == user_keys.K_MOVE_NEXT_AREA:
             self.post(events.MoveEntityToNextAreaCommand(1))
 
     def pumpPygameEvents(self):
