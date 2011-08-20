@@ -17,3 +17,6 @@
 # Temporary files created by emacs or gedit.
 *.*~
 
+# Configuration file
+config.txt
+
